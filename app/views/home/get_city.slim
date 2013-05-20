@@ -1,0 +1,20 @@
+h2 地市州信息
+h3 以下是数据展示
+ul
+  -@data.each do |city|
+    li
+      span=city.id
+      span=city.name
+      span=city.number
+      ul
+        -city.child.each do |c|
+          li
+            span=c.id
+            span=c.name
+            span=c.number
+
+
+
+h3 以下是json数据
+=@data.to_json
+

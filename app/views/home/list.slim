@@ -1,0 +1,24 @@
+ul
+  li 四川省
+  ul
+    -i=0
+    - City.where("id <> 1").each do |city|
+      li = city.name
+      ul
+        - Area.where(:city_id => city.id).each do |area|
+          li = area.name
+          ul
+            - EnterpriseLocality.where(:city_id=>city.id, :area_id=>area.id).each do |en|
+              li
+                strong =i=i+1
+                = en.enterprise_id
+                |,
+                - if (Enterprise.where(:id => en.enterprise_id).first)
+                  = Enterprise.find( en.enterprise_id).name
+                  - enature = EnterpriseNature.where(:enterprise_id => en.enterprise_id).first
+                  |,
+                  = enature.nature.name
+                  - if (u = Role.where(:marked => en.enterprise_id).first)
+                    - if (User.where(:id => u.user_id).first)
+                      = User.find(u.user_id).login
+
