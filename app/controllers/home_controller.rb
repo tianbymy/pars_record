@@ -16,37 +16,46 @@ class HomeController < ApplicationController
 
 
   def get_city_account
+    @data=[]
     i=0
     citys = City.all
     citys.each do |c|
       Area.where(:city_id => c.id).each do |a|
         if role = Role.where(:marked => a.id,:name =>"city").first
           if user = User.where(:id => role.user_id).first
-            p "#{i=i+1}-#{c.name}/#{a.name}/#{user.login}"
+            @data[i] = user
+            @data[i]["city"] = c.name
+            @data[i]["area"] = a.name
+            i=i+1
           end
         end
       end
     end
-    @data
+    p @data.size
     render :json => @data
   end
   def get_finance_account
+    @data = []
     i=0
     citys = City.all
     citys.each do |c|
       Area.where(:city_id => c.id).each do |a|
         if role = Role.where(:marked => a.id,:name =>"finance").first
           if user = User.where(:id => role.user_id).first
-            p "#{i=i+1}-#{c.name}/#{a.name}/#{user.login}"
+            @data[i] = user
+            @data[i]["city"] = c.name
+            @data[i]["area"] = a.name
+            i=i+1
           end
         end
       end
     end
-    @data
+    p @data.size
     render :json => @data
   end
 
   def get_enterprise_account
+    @data =[]
     i=0
     citys = City.all
     citys.each do |c|
@@ -56,7 +65,11 @@ class HomeController < ApplicationController
             if nature = EnterpriseNature.where(:enterprise_id => e.id).first
               if role = Role.where(:marked => e.enterprise_id,:name =>"enterprise").first
                 if user = User.where(:id => role.user_id).first
-                  p "#{i=i+1}-#{c.name}/#{a.name}/#{enterprise.name}-#{nature.nature.name}/#{user.login}"
+                  @data[i] = user
+                  @data[i]["city"] = c.name
+                  @data[i]["area"] = a.name
+                  @data[i]["enterprise"] = enterprise.name
+                  i=i+1
                 end
               end
             end
@@ -64,8 +77,16 @@ class HomeController < ApplicationController
         end
       end
     end
-    @data
+    p @data.size
     render :json => @data
   end
+
+ def get_special
+   @data = Area.where(status: 1)
+   @data.each_with_index do |a,i|
+     @data[i] = a.name
+   end
+   render :json =>@data
+ end
 
 end
