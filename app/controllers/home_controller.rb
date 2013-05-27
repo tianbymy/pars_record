@@ -69,6 +69,7 @@ class HomeController < ApplicationController
                   @data[i]["city"] = c.name
                   @data[i]["area"] = a.name
                   @data[i]["enterprise"] = enterprise.name
+                  @data[i]["nature"] = nature.nature.name
                   i=i+1
                 end
               end
