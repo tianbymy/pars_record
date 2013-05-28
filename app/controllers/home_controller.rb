@@ -4,6 +4,12 @@ class HomeController < ApplicationController
 
   end
 
+  def get_account
+    data =[]
+    @data = User.select("login").select("email").all
+    p @data.size
+    render :json => @data
+  end
   def get_city
     @data = []
     citys = City.all

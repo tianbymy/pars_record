@@ -6,7 +6,7 @@ Pgtojosn::Application.routes.draw do
   get "home/get_enterprise_account"
   get "home/get_finance_account"
   get "home/get_special"
-
+  get "home/get_account"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
