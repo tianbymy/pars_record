@@ -96,4 +96,35 @@ class HomeController < ApplicationController
    render :json =>@data
  end
 
+  def get_enterprise
+    @data =[]
+    i=0
+    citys = City.all
+    citys.each do |c|
+      Area.where(:city_id => c.id).each do |a|
+        EnterpriseLocality.where(:city_id => c.id, :area_id =>a.id).each do |e|
+          if enterprise = Enterprise.where(:id => e.id).first
+            if nature = EnterpriseNature.where(:enterprise_id => e.id).first
+              if role = Role.where(:marked => e.enterprise_id,:name =>"enterprise").first
+                if user = User.where(:id => role.user_id).first
+                  @data[i] = user
+                  @data[i]["city"] = c.name
+                  @data[i]["area"] = a.name
+                  @data[i]["enterprise_name"] = enterprise.name
+                  @data[i]["enterprise_id"] = enterprise.id
+                  @data[i]["nature"] = nature.nature.name
+                  i=i+1
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    p @data.size
+    render :json => @data
+  end
+
+
+
 end
